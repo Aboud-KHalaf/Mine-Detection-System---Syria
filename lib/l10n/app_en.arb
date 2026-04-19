@@ -1,0 +1,35 @@
+{
+  "@@locale": "en",
+  "appTitle": "TACTICAL SENTINEL",
+  "@appTitle": {
+    "description": "Main title of the application"
+  },
+  "fieldMap": "FIELD MAP",
+  "statistics": "STATISTICS",
+  "operationalSettings": "OPERATIONAL SETTINGS",
+  "searchHint": "Search coordinates or zones...",
+  "locationPinnedRequired": "Long-press on the map to pin the hazard location first.",
+  "submitHazardReport": "SUBMIT HAZARD REPORT",
+  "linkedLocation": "LINKED LOCATION: {lat}, {lng}",
+  "@linkedLocation": {
+    "placeholders": {
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "fullName": "Full Name",
+  "phoneNumber": "Phone Number (e.g. +963)",
+  "notes": "Additional Visual Details (Optional)",
+  "attachImage": "ATTACH IMAGE",
+  "transmitReport": "TRANSMIT REPORT",
+  "reportSuccess": "Report submitted or queued for offline sync!",
+  "requiredField": "Required field",
+  "reportCubitError": "Report Cubit not yet provided in main.dart",
+  "language": "Language",
+  "switchToArabic": "Switch to Arabic",
+  "switchToEnglish": "Switch to English"
+}

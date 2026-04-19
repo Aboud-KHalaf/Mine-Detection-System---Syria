@@ -7,5 +7,6 @@ class SyncService {
     await Hive.openBox('authBox');
     await Hive.openBox('zonesBox');
     await Hive.openBox('offlineReportsBox');
+    await Hive.openBox('settingsBox');
   }
 }

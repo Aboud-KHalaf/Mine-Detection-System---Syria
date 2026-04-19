@@ -1,0 +1,22 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تاكتيكال سنتينل",
+  "fieldMap": "خريطة الميدان",
+  "statistics": "الإحصائيات",
+  "operationalSettings": "الإعدادات التشغيلية",
+  "searchHint": "البحث عن إحداثيات أو مناطق...",
+  "locationPinnedRequired": "اضغط مطولاً على الخريطة لتحديد موقع الخطر أولاً.",
+  "submitHazardReport": "إرسال تقرير عن خطر",
+  "linkedLocation": "الموقع المرتبط: {lat}, {lng}",
+  "fullName": "الاسم الكامل",
+  "phoneNumber": "رقم الهاتف (مثلاً +963)",
+  "notes": "تفاصيل بصرية إضافية (اختياري)",
+  "attachImage": "إرفاق صورة",
+  "transmitReport": "إرسال التقرير",
+  "reportSuccess": "تم إرسال التقرير أو وضعه في قائمة الانتظار للمزامنة!",
+  "requiredField": "حقل مطلوب",
+  "reportCubitError": "لم يتم توفير Report Cubit في main.dart بعد",
+  "language": "اللغة",
+  "switchToArabic": "التبديل إلى العربية",
+  "switchToEnglish": "التبديل إلى الإنجليزية"
+}
