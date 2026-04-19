@@ -15,7 +15,7 @@ class HomeMapView extends StatelessWidget {
       children: [
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-          userAgentPackageName: 'com.example.mds', 
+          userAgentPackageName: 'com.example.mds',
         ),
         // Placeholder for the transparent red danger zone polygon
         PolygonLayer(
@@ -27,7 +27,7 @@ class HomeMapView extends StatelessWidget {
                 LatLng(35.0, 39.0),
                 LatLng(35.0, 38.0),
               ],
-              color: Colors.redAccent.withAlpha(80), 
+              color: Colors.redAccent.withAlpha(80),
               borderColor: Colors.red,
               borderStrokeWidth: 2,
             ),
