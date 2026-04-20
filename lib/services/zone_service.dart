@@ -1,22 +1,23 @@
 import 'package:hive_ce/hive.dart';
 import '../core/api_client.dart';
-import '../core/api_config.dart';
 import '../models/zone_model.dart';
 import '../core/exceptions.dart';
+import 'api/zone_api.dart';
 
 class ZoneService {
   final ApiClient apiClient;
+  final ZoneApi _zoneApi;
 
-  ZoneService(this.apiClient);
+  ZoneService(this.apiClient) : _zoneApi = ZoneApi(apiClient.dio);
 
   Future<List<ZoneModel>> getAllZones() async {
     try {
-      final response = await apiClient.get(ApiConfig.zones);
-      final List<dynamic> features = response.data['features'] ?? [];
+      final response = await _zoneApi.getZones();
+      final List<dynamic> features = response['features'] ?? [];
       final zones = features.map((f) => ZoneModel.fromFeature(f)).toList();
       
       // Cache local mapping
-      await _cacheZonesLocally(response.data);
+      await _cacheZonesLocally(response);
       
       return zones;
     } catch (e) {
@@ -28,28 +29,28 @@ class ZoneService {
   }
 
   Future<ZoneModel> createZone(Map<String, dynamic> zoneData) async {
-    final response = await apiClient.post(ApiConfig.zones, data: zoneData);
-    final newId = response.data['zone_id'];
+    final response = await _zoneApi.createZone(zoneData);
+    final newId = response['zone_id'];
     return getZoneDetails(newId);
   }
 
   Future<ZoneModel> getZoneDetails(int id) async {
-    final response = await apiClient.get('${ApiConfig.zones}$id/');
-    return ZoneModel.fromJson(response.data);
+    final response = await _zoneApi.getZoneDetails(id);
+    return ZoneModel.fromJson(response);
   }
 
   Future<void> editZone(int id, Map<String, dynamic> zoneData) async {
-    await apiClient.put('${ApiConfig.zones}$id/', data: zoneData);
+    await _zoneApi.editZone(id, zoneData);
   }
 
   Future<void> deleteZone(int id) async {
-    await apiClient.delete('${ApiConfig.zones}$id/');
+    await _zoneApi.deleteZone(id);
   }
 
   Future<void> addReportToZone(int zoneId, String reportType, String description) async {
-    await apiClient.post(
-      ApiConfig.reportToZone(zoneId),
-      data: {
+    await _zoneApi.submitReport(
+      zoneId,
+      {
         'report_type': reportType,
         'description': description,
       },

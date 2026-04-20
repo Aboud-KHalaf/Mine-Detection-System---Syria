@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'zone_model.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ZoneModel {
   final int id;
   final String name;
@@ -22,28 +27,12 @@ class ZoneModel {
     this.createdBy,
     this.minesCount,
     this.estimatedArea,
-    required this.shapeType,
+    this.shapeType = 'polygon',
     this.shapeRadius,
     this.coordinates,
   });
 
-  factory ZoneModel.fromJson(Map<String, dynamic> json) {
-    return ZoneModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      status: json['status'] as String,
-      statusDisplay: json['status_display'] as String?,
-      description: json['description'] as String?,
-      createdAt: json['created_at'] as String?,
-      createdBy: json['created_by'] as String?,
-      minesCount: json['mines_count'] as int?,
-      estimatedArea: (json['estimated_area'] as num?)?.toDouble(),
-      shapeType: json['shape_type'] as String? ?? 'polygon',
-      shapeRadius: (json['shape_radius'] as num?)?.toDouble(),
-      coordinates: json['coordinates'] as Map<String, dynamic>?,
-    );
-  }
-
+  factory ZoneModel.fromJson(Map<String, dynamic> json) => _$ZoneModelFromJson(json);
   /// Parses from the GeoJSON feature properties & geometry when calling GET /zones/
   factory ZoneModel.fromFeature(Map<String, dynamic> feature) {
     final properties = feature['properties'] as Map<String, dynamic>;
@@ -54,20 +43,5 @@ class ZoneModel {
     });
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'status': status,
-      'status_display': statusDisplay,
-      'description': description,
-      'created_at': createdAt,
-      'created_by': createdBy,
-      'mines_count': minesCount,
-      'estimated_area': estimatedArea,
-      'shape_type': shapeType,
-      'shape_radius': shapeRadius,
-      'coordinates': coordinates,
-    };
-  }
+  Map<String, dynamic> toJson() => _$ZoneModelToJson(this);
 }

@@ -1,10 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'statistics_model.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class StatisticsModel {
+  @JsonKey(defaultValue: 0)
   final int totalZones;
+  @JsonKey(defaultValue: 0)
   final int safeZones;
+  @JsonKey(defaultValue: 0)
   final int unsafeZones;
+  @JsonKey(defaultValue: 0)
   final int unknownZones;
+  @JsonKey(defaultValue: 0)
   final int totalMines;
+  @JsonKey(defaultValue: 0)
   final int totalReports;
+  @JsonKey(defaultValue: 0)
   final int visitorReports;
 
   StatisticsModel({
@@ -17,19 +29,12 @@ class StatisticsModel {
     required this.visitorReports,
   });
 
-  factory StatisticsModel.fromJson(Map<String, dynamic> json) {
-    return StatisticsModel(
-      totalZones: json['total_zones'] as int? ?? 0,
-      safeZones: json['safe_zones'] as int? ?? 0,
-      unsafeZones: json['unsafe_zones'] as int? ?? 0,
-      unknownZones: json['unknown_zones'] as int? ?? 0,
-      totalMines: json['total_mines'] as int? ?? 0,
-      totalReports: json['total_reports'] as int? ?? 0,
-      visitorReports: json['visitor_reports'] as int? ?? 0,
-    );
-  }
+  factory StatisticsModel.fromJson(Map<String, dynamic> json) => _$StatisticsModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatisticsModelToJson(this);
 }
 
+@JsonSerializable()
 class MineTypeModel {
   final int id;
   final String name;
@@ -41,11 +46,7 @@ class MineTypeModel {
     required this.description,
   });
 
-  factory MineTypeModel.fromJson(Map<String, dynamic> json) {
-    return MineTypeModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      description: json['description'] as String,
-    );
-  }
+  factory MineTypeModel.fromJson(Map<String, dynamic> json) => _$MineTypeModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MineTypeModelToJson(this);
 }

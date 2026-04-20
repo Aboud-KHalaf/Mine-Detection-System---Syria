@@ -1,22 +1,19 @@
 import 'package:hive_ce/hive.dart';
 import '../core/api_client.dart';
-import '../core/api_config.dart';
 import '../models/user_token_model.dart';
+import 'api/auth_api.dart';
 
 class AuthService {
   final ApiClient apiClient;
+  final AuthApi _authApi;
 
-  AuthService(this.apiClient);
+  AuthService(this.apiClient) : _authApi = AuthApi(apiClient.dio);
 
   Future<UserTokenModel> login(String username, String password) async {
-    final response = await apiClient.post(
-      ApiConfig.login,
-      data: {
-        'username': username,
-        'password': password,
-      },
-    );
-    final tokenModel = UserTokenModel.fromJson(response.data);
+    final tokenModel = await _authApi.login({
+      'username': username,
+      'password': password,
+    });
     await _saveTokenLocally(tokenModel.token);
     apiClient.setToken(tokenModel.token);
     return tokenModel;

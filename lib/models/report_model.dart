@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'report_model.g.dart';
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ReportModel {
   final int id;
   final String reportType;
@@ -11,21 +16,7 @@ class ReportModel {
     required this.createdAt,
   });
 
-  factory ReportModel.fromJson(Map<String, dynamic> json) {
-    return ReportModel(
-      id: json['id'] as int,
-      reportType: json['report_type'] as String,
-      description: json['description'] as String?,
-      createdAt: json['created_at'] as String,
-    );
-  }
+  factory ReportModel.fromJson(Map<String, dynamic> json) => _$ReportModelFromJson(json);
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'report_type': reportType,
-      'description': description,
-      'created_at': createdAt,
-    };
-  }
+  Map<String, dynamic> toJson() => _$ReportModelToJson(this);
 }

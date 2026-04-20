@@ -1,20 +1,20 @@
 import '../core/api_client.dart';
-import '../core/api_config.dart';
 import '../models/statistics_model.dart';
+import 'api/general_api.dart';
 
 class GeneralDataService {
   final ApiClient apiClient;
+  final GeneralApi _generalApi;
 
-  GeneralDataService(this.apiClient);
+  GeneralDataService(this.apiClient) : _generalApi = GeneralApi(apiClient.dio);
 
   Future<StatisticsModel> getStatistics() async {
-    final response = await apiClient.get(ApiConfig.statistics);
-    return StatisticsModel.fromJson(response.data);
+    return await _generalApi.getStatistics();
   }
 
   Future<List<MineTypeModel>> getMineTypes() async {
-    final response = await apiClient.get(ApiConfig.mineTypes);
-    final List<dynamic> list = response.data['mine_types'] ?? [];
-    return list.map((e) => MineTypeModel.fromJson(e)).toList();
+    final response = await _generalApi.getMineTypes();
+    final List<dynamic> list = response['mine_types'] ?? [];
+    return list.map((e) => MineTypeModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 }

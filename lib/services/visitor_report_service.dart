@@ -1,12 +1,14 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
 import '../core/api_client.dart';
-import '../core/api_config.dart';
 import '../models/visitor_report_model.dart';
+import 'api/visitor_report_api.dart';
 
 class VisitorReportService {
   final ApiClient apiClient;
+  final VisitorReportApi _visitorReportApi;
 
-  VisitorReportService(this.apiClient);
+  VisitorReportService(this.apiClient) : _visitorReportApi = VisitorReportApi(apiClient.dio);
 
   Future<void> submitVisitorReport({
     required String fullName,
@@ -15,44 +17,31 @@ class VisitorReportService {
     String? notes,
     String? imagePath,
   }) async {
-    final formData = FormData.fromMap({
-      'full_name': fullName,
-      'phone': phone,
-      'coordinates': coordinates[0],
-    });
-    // Add second coordinate separately to form an array if backend expects it this way
-    formData.fields.add(MapEntry('coordinates', coordinates[1].toString()));
-
-    if (notes != null) {
-      formData.fields.add(MapEntry('notes', notes));
-    }
-
-    if (imagePath != null) {
-      formData.files.add(MapEntry(
-        'image',
-        await MultipartFile.fromFile(imagePath),
-      ));
-    }
-
-    await apiClient.post(ApiConfig.visitorReports, data: formData);
+    final imgFile = imagePath != null ? File(imagePath) : null;
+    await _visitorReportApi.submitVisitorReport(
+      fullName,
+      phone,
+      '${coordinates[0]},${coordinates[1]}',
+      notes,
+      imgFile,
+    );
   }
 
   Future<List<VisitorReportModel>> getVisitorReports() async {
-    final response = await apiClient.get(ApiConfig.visitorReports);
-    final List<dynamic> reports = response.data['reports'] ?? [];
-    return reports.map((e) => VisitorReportModel.fromJson(e)).toList();
+    final response = await _visitorReportApi.getVisitorReports();
+    final List<dynamic> reports = response['reports'] ?? [];
+    return reports.map((e) => VisitorReportModel.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<VisitorReportModel> getVisitorReportDetails(int id) async {
-    final response = await apiClient.get('${ApiConfig.visitorReports}$id/');
-    return VisitorReportModel.fromJson(response.data);
+    return await _visitorReportApi.getVisitorReportDetails(id);
   }
 
   Future<void> deleteVisitorReport(int id) async {
-    await apiClient.delete('${ApiConfig.visitorReports}$id/');
+    await _visitorReportApi.deleteVisitorReport(id);
   }
 
   Future<void> confirmVisitorReport(int id) async {
-    await apiClient.post(ApiConfig.confirmVisitorReport(id));
+    await _visitorReportApi.confirmReport(id);
   }
 }
