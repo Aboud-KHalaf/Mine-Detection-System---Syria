@@ -94,6 +94,14 @@ class _HomeMapViewState extends State<HomeMapView> {
     };
   }
 
+  String _localizeZoneError(AppLocalizations l10n, MapZoneError error) {
+    return switch (error.failure) {
+      MapZoneFailure.api => error.serverMessage ?? l10n.errorGenericServer,
+      MapZoneFailure.offline => l10n.errorOffline,
+      MapZoneFailure.unknown => l10n.errorUnknown,
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MapZoneCubit, MapZoneState>(
@@ -132,13 +140,5 @@ class _HomeMapViewState extends State<HomeMapView> {
         );
       },
     );
-  }
-
-  String _localizeZoneError(AppLocalizations l10n, MapZoneError error) {
-    return switch (error.failure) {
-      MapZoneFailure.api => error.serverMessage ?? l10n.errorGenericServer,
-      MapZoneFailure.offline => l10n.errorOffline,
-      MapZoneFailure.unknown => l10n.errorUnknown,
-    };
   }
 }
