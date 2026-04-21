@@ -80,4 +80,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get terrain => 'تضاريس';
+
+  @override
+  String pinnedHazardAt(String lat, String lng) {
+    return 'تم تحديد الخطر في: $lat, $lng';
+  }
+
+  @override
+  String get fetchingLocation => 'جاري إحضار موقعك...';
+
+  @override
+  String get loadingSafeZones => 'جاري تحميل المناطق الآمنة...';
+
+  @override
+  String errorRetry(String message) {
+    return 'خطأ: $message. إعادة المحاولة؟';
+  }
 }

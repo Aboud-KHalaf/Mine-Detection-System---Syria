@@ -35,5 +35,26 @@
   "mapType": "Map Type",
   "defaultMap": "Default",
   "satellite": "Satellite",
-  "terrain": "Terrain"
+  "terrain": "Terrain",
+  "pinnedHazardAt": "Pinned hazard at: {lat}, {lng}",
+  "@pinnedHazardAt": {
+    "placeholders": {
+      "lat": {
+        "type": "String"
+      },
+      "lng": {
+        "type": "String"
+      }
+    }
+  },
+  "fetchingLocation": "Fetching your location...",
+  "loadingSafeZones": "Loading safe zones...",
+  "errorRetry": "Error: {message}. Retry?",
+  "@errorRetry": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  }
 }

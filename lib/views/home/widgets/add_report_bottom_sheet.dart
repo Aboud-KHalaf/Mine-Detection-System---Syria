@@ -44,8 +44,8 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Report Cubit not yet provided in main.dart'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.reportCubitError),
           ),
         );
       }

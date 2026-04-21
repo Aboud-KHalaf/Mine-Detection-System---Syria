@@ -79,4 +79,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get terrain => 'Terrain';
+
+  @override
+  String pinnedHazardAt(String lat, String lng) {
+    return 'Pinned hazard at: $lat, $lng';
+  }
+
+  @override
+  String get fetchingLocation => 'Fetching your location...';
+
+  @override
+  String get loadingSafeZones => 'Loading safe zones...';
+
+  @override
+  String errorRetry(String message) {
+    return 'Error: $message. Retry?';
+  }
 }

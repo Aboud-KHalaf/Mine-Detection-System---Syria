@@ -22,5 +22,9 @@
   "mapType": "نوع الخريطة",
   "defaultMap": "الافتراضي",
   "satellite": "قمر صناعي",
-  "terrain": "تضاريس"
+  "terrain": "تضاريس",
+  "pinnedHazardAt": "تم تحديد الخطر في: {lat}, {lng}",
+  "fetchingLocation": "جاري إحضار موقعك...",
+  "loadingSafeZones": "جاري تحميل المناطق الآمنة...",
+  "errorRetry": "خطأ: {message}. إعادة المحاولة؟"
 }

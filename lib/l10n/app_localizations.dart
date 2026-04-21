@@ -235,6 +235,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Terrain'**
   String get terrain;
+
+  /// No description provided for @pinnedHazardAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned hazard at: {lat}, {lng}'**
+  String pinnedHazardAt(String lat, String lng);
+
+  /// No description provided for @fetchingLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching your location...'**
+  String get fetchingLocation;
+
+  /// No description provided for @loadingSafeZones.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading safe zones...'**
+  String get loadingSafeZones;
+
+  /// No description provided for @errorRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}. Retry?'**
+  String errorRetry(String message);
 }
 
 class _AppLocalizationsDelegate

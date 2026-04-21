@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mds/l10n/app_localizations.dart';
 
 class MapErrorOverlay extends StatelessWidget {
   final String message;
@@ -21,7 +22,7 @@ class MapErrorOverlay extends StatelessWidget {
           onPressed: onRetry,
           icon: const Icon(Icons.refresh),
 
-          label: Text('Error: $message. Retry?'),
+          label: Text(AppLocalizations.of(context)!.errorRetry(message)),
         ),
       ),
     );

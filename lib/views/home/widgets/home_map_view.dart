@@ -11,6 +11,7 @@ import 'package:mds/core/extensions/map_type_extensions.dart';
 import 'package:mds/views/components/map/map_loading_overlay.dart';
 import 'package:mds/views/components/map/map_error_overlay.dart';
 import 'package:mds/views/home/services/map_layer_builder.dart';
+import 'package:mds/l10n/app_localizations.dart';
 
 class HomeMapView extends StatefulWidget {
   const HomeMapView({super.key});
@@ -49,7 +50,10 @@ class _HomeMapViewState extends State<HomeMapView> {
       ..showSnackBar(
         SnackBar(
           content: Text(
-            'Pinned hazard at: ${point.latitude.toStringAsFixed(4)}, ${point.longitude.toStringAsFixed(4)}',
+            AppLocalizations.of(context)!.pinnedHazardAt(
+              point.latitude.toStringAsFixed(4),
+              point.longitude.toStringAsFixed(4),
+            ),
           ),
           duration: const Duration(seconds: 2),
         ),
@@ -88,8 +92,8 @@ class _HomeMapViewState extends State<HomeMapView> {
                       selectionState is MapLocationLoading)
                     MapLoadingOverlay(
                       text: selectionState is MapLocationLoading
-                          ? 'Fetching your location...'
-                          : 'Loading safe zones...',
+                          ? AppLocalizations.of(context)!.fetchingLocation
+                          : AppLocalizations.of(context)!.loadingSafeZones,
                     ),
                   if (zoneState is MapZoneError)
                     MapErrorOverlay(
