@@ -42,15 +42,15 @@ class _HomeMapViewState extends State<HomeMapView> {
     super.dispose();
   }
 
-  void _onMapLongPress(TapPosition tapPosition, LatLng point) {
-    context.read<MapSelectionCubit>().selectLocation(point);
+  void _showPinnedHazardSnackBar(LatLng point) {
+    final l10n = AppLocalizations.of(context)!;
 
     ScaffoldMessenger.of(context)
       ..clearSnackBars()
       ..showSnackBar(
         SnackBar(
           content: Text(
-            AppLocalizations.of(context)!.pinnedHazardAt(
+            l10n.pinnedHazardAt(
               point.latitude.toStringAsFixed(4),
               point.longitude.toStringAsFixed(4),
             ),
@@ -60,6 +60,11 @@ class _HomeMapViewState extends State<HomeMapView> {
       );
   }
 
+  void _onMapLongPress(TapPosition tapPosition, LatLng point) {
+    context.read<MapSelectionCubit>().selectLocation(point);
+    _showPinnedHazardSnackBar(point);
+  }
+
   void _onSelectionStateChanged(
     BuildContext context,
     MapSelectionState selectionState,
@@ -67,14 +72,27 @@ class _HomeMapViewState extends State<HomeMapView> {
     if (selectionState is MapLocationSelected) {
       _mapController.move(selectionState.position, 15.0);
     } else if (selectionState is MapLocationError) {
+      final l10n = AppLocalizations.of(context)!;
       final colors = Theme.of(context).colorScheme;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(selectionState.message),
+          content: Text(_localizeSelectionError(l10n, selectionState)),
           backgroundColor: colors.error,
         ),
       );
     }
+  }
+
+  String _localizeSelectionError(
+    AppLocalizations l10n,
+    MapLocationError error,
+  ) {
+    return switch (error.failure) {
+      MapSelectionFailure.locationServicesDisabled =>
+        l10n.mapErrorLocationServicesDisabled,
+      MapSelectionFailure.locationNotFound => l10n.mapErrorLocationNotFound,
+      MapSelectionFailure.unknown => l10n.mapErrorUnknown,
+    };
   }
 
   @override
@@ -97,7 +115,10 @@ class _HomeMapViewState extends State<HomeMapView> {
                     ),
                   if (zoneState is MapZoneError)
                     MapErrorOverlay(
-                      message: zoneState.message,
+                      message: _localizeZoneError(
+                        AppLocalizations.of(context)!,
+                        zoneState,
+                      ),
                       onRetry: () => context.read<MapZoneCubit>().fetchZones(),
                     ),
                 ],
@@ -107,6 +128,14 @@ class _HomeMapViewState extends State<HomeMapView> {
         );
       },
     );
+  }
+
+  String _localizeZoneError(AppLocalizations l10n, MapZoneError error) {
+    return switch (error.failure) {
+      MapZoneFailure.api => error.serverMessage ?? l10n.errorGenericServer,
+      MapZoneFailure.offline => l10n.errorOffline,
+      MapZoneFailure.unknown => l10n.errorUnknown,
+    };
   }
 
   Widget _buildMap(

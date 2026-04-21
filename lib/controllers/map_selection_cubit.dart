@@ -25,7 +25,11 @@ class MapSelectionCubit extends Cubit<MapSelectionState> {
       );
     } else if (state is MapLocationError) {
       emit(
-        MapLocationError((state as MapLocationError).message, mapType: type),
+        MapLocationError(
+          (state as MapLocationError).failure,
+          debugMessage: (state as MapLocationError).debugMessage,
+          mapType: type,
+        ),
       );
     } else if (state is MapLocationLoading) {
       emit(MapLocationLoading(mapType: type));
@@ -43,14 +47,19 @@ class MapSelectionCubit extends Cubit<MapSelectionState> {
       } else {
         emit(
           MapLocationError(
-            'تعذر الحصول على الموقع. يرجى تفعيل خدمات الموقع.',
+            MapSelectionFailure.locationServicesDisabled,
             mapType: state.mapType,
           ),
         );
       }
     } catch (e) {
-      print(e);
-      emit(MapLocationError(e.toString(), mapType: state.mapType));
+      emit(
+        MapLocationError(
+          MapSelectionFailure.unknown,
+          debugMessage: e.toString(),
+          mapType: state.mapType,
+        ),
+      );
     }
   }
 
@@ -65,14 +74,19 @@ class MapSelectionCubit extends Cubit<MapSelectionState> {
       } else {
         emit(
           MapLocationError(
-            'لم يتم العثور على الموقع. يرجى المحاولة بكلمات أخرى.',
+            MapSelectionFailure.locationNotFound,
             mapType: state.mapType,
           ),
         );
       }
     } catch (e) {
-      print(e);
-      emit(MapLocationError(e.toString(), mapType: state.mapType));
+      emit(
+        MapLocationError(
+          MapSelectionFailure.unknown,
+          debugMessage: e.toString(),
+          mapType: state.mapType,
+        ),
+      );
     }
   }
 

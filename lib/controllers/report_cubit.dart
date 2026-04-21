@@ -26,13 +26,13 @@ class ReportCubit extends Cubit<ReportState> {
       );
       emit(ReportSuccess());
     } on ApiException catch (e) {
-      emit(ReportError(e.message));
+      emit(ReportError(ReportFailure.api, serverMessage: e.message));
     } on OfflineException catch (_) {
       // In a robust implementation, this would be queued in Hive and synced later
       // For now, we simulate an offline handling state.
-      emit(const ReportError('Offline. Report queued.')); 
+      emit(const ReportError(ReportFailure.offlineQueued));
     } catch (e) {
-      emit(const ReportError('Failed to submit report.'));
+      emit(ReportError(ReportFailure.unknown, debugMessage: e.toString()));
     }
   }
 }

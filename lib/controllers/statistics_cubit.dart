@@ -15,9 +15,14 @@ class StatisticsCubit extends Cubit<StatisticsState> {
       final mineTypes = await dataService.getMineTypes();
       emit(StatisticsLoaded(stats, mineTypes));
     } on ApiException catch (e) {
-      emit(StatisticsError(e.message));
+      emit(StatisticsError(StatisticsFailure.api, serverMessage: e.message));
     } catch (e) {
-      emit(const StatisticsError('Error loading dashboard data.'));
+      emit(
+        StatisticsError(
+          StatisticsFailure.unknown,
+          debugMessage: e.toString(),
+        ),
+      );
     }
   }
 }

@@ -178,6 +178,7 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
 
                     return BlocConsumer<ReportCubit, ReportState>(
                       listener: (context, state) {
+                        final l10n = AppLocalizations.of(context)!;
                         if (state is ReportSuccess) {
                           Navigator.pop(context); // Close sheet
                           // Clear selection after success
@@ -193,7 +194,7 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
                         } else if (state is ReportError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(state.message),
+                              content: Text(_localizeReportError(l10n, state)),
                               backgroundColor: colors.errorContainer,
                             ),
                           );
@@ -251,5 +252,13 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
               ),
       ),
     );
+  }
+
+  String _localizeReportError(AppLocalizations l10n, ReportError error) {
+    return switch (error.failure) {
+      ReportFailure.api => error.serverMessage ?? l10n.errorGenericServer,
+      ReportFailure.offlineQueued => l10n.reportErrorOfflineQueued,
+      ReportFailure.unknown => l10n.errorUnknown,
+    };
   }
 }

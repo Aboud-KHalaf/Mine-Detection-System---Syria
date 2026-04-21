@@ -1,5 +1,11 @@
 import 'package:equatable/equatable.dart';
 
+enum ReportFailure {
+  api,
+  offlineQueued,
+  unknown,
+}
+
 abstract class ReportState extends Equatable {
   const ReportState();
   
@@ -14,9 +20,16 @@ class ReportSubmitting extends ReportState {}
 class ReportSuccess extends ReportState {}
 
 class ReportError extends ReportState {
-  final String message;
-  const ReportError(this.message);
+  final ReportFailure failure;
+  final String? serverMessage;
+  final String? debugMessage;
+
+  const ReportError(
+    this.failure, {
+    this.serverMessage,
+    this.debugMessage,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [failure, serverMessage, debugMessage];
 }

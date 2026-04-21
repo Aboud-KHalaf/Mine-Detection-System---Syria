@@ -92,6 +92,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingSafeZones => 'Loading safe zones...';
 
   @override
+  String get errorOffline =>
+      'You appear to be offline. Please check your connection.';
+
+  @override
+  String get errorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get errorGenericServer => 'Server error. Please try again.';
+
+  @override
+  String get mapErrorLocationServicesDisabled =>
+      'Unable to get your location. Please enable location services.';
+
+  @override
+  String get mapErrorLocationNotFound =>
+      'Location not found. Try different keywords.';
+
+  @override
+  String get mapErrorUnknown => 'Something went wrong. Please try again.';
+
+  @override
+  String get reportErrorOfflineQueued =>
+      'Offline. Your report has been queued and will sync later.';
+
+  @override
   String errorRetry(String message) {
     return 'Error: $message. Retry?';
   }

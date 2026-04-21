@@ -254,6 +254,48 @@ abstract class AppLocalizations {
   /// **'Loading safe zones...'**
   String get loadingSafeZones;
 
+  /// No description provided for @errorOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'You appear to be offline. Please check your connection.'**
+  String get errorOffline;
+
+  /// No description provided for @errorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get errorUnknown;
+
+  /// No description provided for @errorGenericServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again.'**
+  String get errorGenericServer;
+
+  /// No description provided for @mapErrorLocationServicesDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to get your location. Please enable location services.'**
+  String get mapErrorLocationServicesDisabled;
+
+  /// No description provided for @mapErrorLocationNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Location not found. Try different keywords.'**
+  String get mapErrorLocationNotFound;
+
+  /// No description provided for @mapErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get mapErrorUnknown;
+
+  /// No description provided for @reportErrorOfflineQueued.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline. Your report has been queued and will sync later.'**
+  String get reportErrorOfflineQueued;
+
   /// No description provided for @errorRetry.
   ///
   /// In en, this message translates to:

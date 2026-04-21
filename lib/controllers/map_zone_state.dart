@@ -1,6 +1,12 @@
 import 'package:equatable/equatable.dart';
 import '../models/zone_model.dart';
 
+enum MapZoneFailure {
+  api,
+  offline,
+  unknown,
+}
+
 abstract class MapZoneState extends Equatable {
   const MapZoneState();
   
@@ -21,9 +27,16 @@ class MapZoneLoaded extends MapZoneState {
 }
 
 class MapZoneError extends MapZoneState {
-  final String message;
-  const MapZoneError(this.message);
+  final MapZoneFailure failure;
+  final String? serverMessage;
+  final String? debugMessage;
+
+  const MapZoneError(
+    this.failure, {
+    this.serverMessage,
+    this.debugMessage,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [failure, serverMessage, debugMessage];
 }

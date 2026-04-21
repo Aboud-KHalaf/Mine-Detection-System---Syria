@@ -18,13 +18,8 @@ class HomeScreen extends StatelessWidget {
           const HomeMapView(),
 
           // 2. Search Bar overlay (acts as top HUD)
-          const Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: HomeSearchBar(),
-          ),
-          
+          const Positioned(top: 0, left: 0, right: 0, child: HomeSearchBar()),
+
           // 3. Floating Action Buttons (Bottom Area)
           Positioned(
             right: 16.0,
@@ -43,4 +38,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-

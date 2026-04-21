@@ -3,6 +3,12 @@ import 'package:latlong2/latlong.dart';
 
 enum MapTypeEnum { defaultMap, satellite, terrain }
 
+enum MapSelectionFailure {
+  locationServicesDisabled,
+  locationNotFound,
+  unknown,
+}
+
 abstract class MapSelectionState extends Equatable {
   final MapTypeEnum mapType;
 
@@ -30,10 +36,15 @@ class MapLocationSelected extends MapSelectionState {
 }
 
 class MapLocationError extends MapSelectionState {
-  final String message;
+  final MapSelectionFailure failure;
+  final String? debugMessage;
 
-  const MapLocationError(this.message, {super.mapType});
+  const MapLocationError(
+    this.failure, {
+    this.debugMessage,
+    super.mapType,
+  });
 
   @override
-  List<Object?> get props => [message, mapType];
+  List<Object?> get props => [failure, debugMessage, mapType];
 }

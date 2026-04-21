@@ -26,5 +26,12 @@
   "pinnedHazardAt": "تم تحديد الخطر في: {lat}, {lng}",
   "fetchingLocation": "جاري إحضار موقعك...",
   "loadingSafeZones": "جاري تحميل المناطق الآمنة...",
+  "errorOffline": "يبدو أنك غير متصل بالإنترنت. يرجى التحقق من الاتصال.",
+  "errorUnknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+  "errorGenericServer": "خطأ في الخادم. يرجى المحاولة مرة أخرى.",
+  "mapErrorLocationServicesDisabled": "تعذر الحصول على موقعك. يرجى تفعيل خدمات الموقع.",
+  "mapErrorLocationNotFound": "لم يتم العثور على الموقع. يرجى المحاولة بكلمات أخرى.",
+  "mapErrorUnknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+  "reportErrorOfflineQueued": "أنت غير متصل بالإنترنت. تم وضع التقرير في قائمة الانتظار وسيتم مزامنته لاحقاً.",
   "errorRetry": "خطأ: {message}. إعادة المحاولة؟"
 }

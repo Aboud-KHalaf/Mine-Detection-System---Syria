@@ -93,6 +93,31 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loadingSafeZones => 'جاري تحميل المناطق الآمنة...';
 
   @override
+  String get errorOffline =>
+      'يبدو أنك غير متصل بالإنترنت. يرجى التحقق من الاتصال.';
+
+  @override
+  String get errorUnknown => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get errorGenericServer => 'خطأ في الخادم. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get mapErrorLocationServicesDisabled =>
+      'تعذر الحصول على موقعك. يرجى تفعيل خدمات الموقع.';
+
+  @override
+  String get mapErrorLocationNotFound =>
+      'لم يتم العثور على الموقع. يرجى المحاولة بكلمات أخرى.';
+
+  @override
+  String get mapErrorUnknown => 'حدث خطأ ما. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get reportErrorOfflineQueued =>
+      'أنت غير متصل بالإنترنت. تم وضع التقرير في قائمة الانتظار وسيتم مزامنته لاحقاً.';
+
+  @override
   String errorRetry(String message) {
     return 'خطأ: $message. إعادة المحاولة؟';
   }
