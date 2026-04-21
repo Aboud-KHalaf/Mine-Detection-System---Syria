@@ -15,10 +15,10 @@ class ZoneService {
       final response = await _zoneApi.getZones();
       final List<dynamic> features = response['features'] ?? [];
       final zones = features.map((f) => ZoneModel.fromFeature(f)).toList();
-      
+
       // Cache local mapping
       await _cacheZonesLocally(response);
-      
+
       return zones;
     } catch (e) {
       if (e is OfflineException) {
@@ -47,14 +47,15 @@ class ZoneService {
     await _zoneApi.deleteZone(id);
   }
 
-  Future<void> addReportToZone(int zoneId, String reportType, String description) async {
-    await _zoneApi.submitReport(
-      zoneId,
-      {
-        'report_type': reportType,
-        'description': description,
-      },
-    );
+  Future<void> addReportToZone(
+    int zoneId,
+    String reportType,
+    String description,
+  ) async {
+    await _zoneApi.submitReport(zoneId, {
+      'report_type': reportType,
+      'description': description,
+    });
   }
 
   Future<void> _cacheZonesLocally(Map<String, dynamic> data) async {

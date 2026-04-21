@@ -1,5 +1,5 @@
 class ApiConfig {
-  static const String baseUrl = 'http://<your-domain>/api/';
+  static const String baseUrl = 'https://omarkhushfi.pythonanywhere.com/api/';
   static const String login = 'login/';
   static const String zones = 'zones/';
   static const String visitorReports = 'visitor-reports/';

@@ -1,20 +1,13 @@
 import 'package:dio/dio.dart';
-import 'api_config.dart';
 import 'exceptions.dart';
+import 'dio_factory.dart';
 
 class ApiClient {
   final Dio _dio;
 
   Dio get dio => _dio;
 
-  ApiClient({Dio? dio}) : _dio = dio ?? Dio(
-    BaseOptions(
-      baseUrl: ApiConfig.baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
-      headers: {'Content-Type': 'application/json'},
-    )
-  );
+  ApiClient({Dio? dio}) : _dio = dio ?? DioFactory.getDio();
 
   void setToken(String token) {
     _dio.options.headers['Authorization'] = 'Token $token';
