@@ -19,6 +19,8 @@ import 'controllers/locale_cubit.dart';
 import 'controllers/locale_state.dart';
 import 'views/home/home_screen.dart';
 
+import 'services/location_service.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -33,6 +35,7 @@ void main() async {
   final zoneService = ZoneService(apiClient);
   final reportService = VisitorReportService(apiClient);
   final generalDataService = GeneralDataService(apiClient);
+  final locationService = LocationService();
 
   runApp(
     MdsApp(
@@ -40,6 +43,7 @@ void main() async {
       zoneService: zoneService,
       reportService: reportService,
       generalDataService: generalDataService,
+      locationService: locationService,
     ),
   );
 }
@@ -49,6 +53,7 @@ class MdsApp extends StatelessWidget {
   final ZoneService zoneService;
   final VisitorReportService reportService;
   final GeneralDataService generalDataService;
+  final LocationService locationService;
 
   const MdsApp({
     super.key,
@@ -56,6 +61,7 @@ class MdsApp extends StatelessWidget {
     required this.zoneService,
     required this.reportService,
     required this.generalDataService,
+    required this.locationService,
   });
 
   @override
@@ -66,7 +72,7 @@ class MdsApp extends StatelessWidget {
         BlocProvider(create: (_) => AuthCubit(authService)),
         BlocProvider(create: (_) => MapZoneCubit(zoneService)),
         BlocProvider(create: (_) => ReportCubit(reportService)),
-        BlocProvider(create: (_) => MapSelectionCubit()),
+        BlocProvider(create: (_) => MapSelectionCubit(locationService)),
         BlocProvider(create: (_) => StatisticsCubit(generalDataService)),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(

@@ -10,6 +10,8 @@ abstract class MapSelectionState extends Equatable {
 
 class MapSelectionInitial extends MapSelectionState {}
 
+class MapLocationLoading extends MapSelectionState {}
+
 class MapLocationSelected extends MapSelectionState {
   final LatLng position;
 
@@ -17,4 +19,13 @@ class MapLocationSelected extends MapSelectionState {
 
   @override
   List<Object?> get props => [position];
+}
+
+class MapLocationError extends MapSelectionState {
+  final String message;
+
+  const MapLocationError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

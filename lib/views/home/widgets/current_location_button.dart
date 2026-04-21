@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../controllers/map_selection_cubit.dart';
 
 class CurrentLocationButton extends StatelessWidget {
   const CurrentLocationButton({super.key});
@@ -13,7 +15,7 @@ class CurrentLocationButton extends StatelessWidget {
       child: FloatingActionButton(
         heroTag: 'current_location_fab',
         onPressed: () {
-          // TODO: Center map to current location
+          context.read<MapSelectionCubit>().fetchCurrentLocation();
         },
         backgroundColor: theme.colorScheme.surface,
         elevation: 4.0,
