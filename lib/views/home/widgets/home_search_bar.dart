@@ -3,9 +3,24 @@ import 'dart:ui';
 import '../../../core/theme/app_theme_tokens.dart';
 import 'package:mds/l10n/app_localizations.dart';
 import 'map_type_button.dart';
+import 'package:mds/controllers/map_selection_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeSearchBar extends StatelessWidget {
+class HomeSearchBar extends StatefulWidget {
   const HomeSearchBar({super.key});
+
+  @override
+  State<HomeSearchBar> createState() => _HomeSearchBarState();
+}
+
+class _HomeSearchBarState extends State<HomeSearchBar> {
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +49,7 @@ class HomeSearchBar extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextField(
+                      controller: _searchController,
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!.searchHint,
                         isDense: true,
@@ -42,6 +58,23 @@ class HomeSearchBar extends StatelessWidget {
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12.0,
                           vertical: 10.0,
+                        ),
+                        suffixIcon: ListenableBuilder(
+                          listenable: _searchController,
+                          builder: (context, _) {
+                            return _searchController.text.isNotEmpty
+                                ? IconButton(
+                                    icon: const Icon(Icons.clear, size: 18),
+                                    onPressed: () {
+                                      _searchController.clear();
+                                    },
+                                  )
+                                : Icon(
+                                    Icons.search,
+                                    size: 18,
+                                    color: colors.onSurfaceVariant,
+                                  );
+                          },
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide.none,
@@ -64,6 +97,9 @@ class HomeSearchBar extends StatelessWidget {
                           ),
                         ),
                       ),
+                      onSubmitted: (value) {
+                        context.read<MapSelectionCubit>().searchLocation(value);
+                      },
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),

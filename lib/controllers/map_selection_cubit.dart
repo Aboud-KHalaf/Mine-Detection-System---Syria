@@ -1,12 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
 import '../services/location_service.dart';
+import '../services/geocoding_service.dart';
 import 'map_selection_state.dart';
 
 class MapSelectionCubit extends Cubit<MapSelectionState> {
   final LocationService _locationService;
+  final GeocodingService _geocodingService;
 
-  MapSelectionCubit(this._locationService) : super(const MapSelectionInitial());
+  MapSelectionCubit(this._locationService, this._geocodingService)
+      : super(const MapSelectionInitial());
 
   void selectLocation(LatLng position) {
     emit(MapLocationSelected(position, mapType: state.mapType));
@@ -41,6 +44,28 @@ class MapSelectionCubit extends Cubit<MapSelectionState> {
         emit(
           MapLocationError(
             'تعذر الحصول على الموقع. يرجى تفعيل خدمات الموقع.',
+            mapType: state.mapType,
+          ),
+        );
+      }
+    } catch (e) {
+      print(e);
+      emit(MapLocationError(e.toString(), mapType: state.mapType));
+    }
+  }
+
+  Future<void> searchLocation(String query) async {
+    if (query.isEmpty) return;
+
+    emit(MapLocationLoading(mapType: state.mapType));
+    try {
+      final position = await _geocodingService.searchLocation(query);
+      if (position != null) {
+        emit(MapLocationSelected(position, mapType: state.mapType));
+      } else {
+        emit(
+          MapLocationError(
+            'لم يتم العثور على الموقع. يرجى المحاولة بكلمات أخرى.',
             mapType: state.mapType,
           ),
         );

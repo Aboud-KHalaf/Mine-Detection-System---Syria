@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mds/l10n/app_localizations.dart';
@@ -10,6 +11,7 @@ import 'services/general_data_service.dart';
 import 'services/sync_service.dart';
 import 'services/visitor_report_service.dart';
 import 'services/zone_service.dart';
+import 'services/geocoding_service.dart';
 import 'controllers/auth_cubit.dart';
 import 'controllers/report_cubit.dart';
 import 'controllers/map_zone_cubit.dart';
@@ -36,6 +38,7 @@ void main() async {
   final reportService = VisitorReportService(apiClient);
   final generalDataService = GeneralDataService(apiClient);
   final locationService = LocationService();
+  final geocodingService = GeocodingService(Dio());
 
   runApp(
     MdsApp(
@@ -44,6 +47,7 @@ void main() async {
       reportService: reportService,
       generalDataService: generalDataService,
       locationService: locationService,
+      geocodingService: geocodingService,
     ),
   );
 }
@@ -54,6 +58,7 @@ class MdsApp extends StatelessWidget {
   final VisitorReportService reportService;
   final GeneralDataService generalDataService;
   final LocationService locationService;
+  final GeocodingService geocodingService;
 
   const MdsApp({
     super.key,
@@ -62,6 +67,7 @@ class MdsApp extends StatelessWidget {
     required this.reportService,
     required this.generalDataService,
     required this.locationService,
+    required this.geocodingService,
   });
 
   @override
@@ -72,7 +78,9 @@ class MdsApp extends StatelessWidget {
         BlocProvider(create: (_) => AuthCubit(authService)),
         BlocProvider(create: (_) => MapZoneCubit(zoneService)),
         BlocProvider(create: (_) => ReportCubit(reportService)),
-        BlocProvider(create: (_) => MapSelectionCubit(locationService)),
+        BlocProvider(
+          create: (_) => MapSelectionCubit(locationService, geocodingService),
+        ),
         BlocProvider(create: (_) => StatisticsCubit(generalDataService)),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
