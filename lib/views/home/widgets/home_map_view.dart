@@ -7,10 +7,9 @@ import 'package:mds/controllers/map_selection_cubit.dart';
 import 'package:mds/controllers/map_selection_state.dart';
 import 'package:mds/controllers/map_zone_cubit.dart';
 import 'package:mds/controllers/map_zone_state.dart';
-import 'package:mds/core/extensions/map_type_extensions.dart';
 import 'package:mds/views/components/map/map_loading_overlay.dart';
 import 'package:mds/views/components/map/map_error_overlay.dart';
-import 'package:mds/views/home/services/map_layer_builder.dart';
+import 'package:mds/views/home/widgets/home_map_canvas.dart';
 import 'package:mds/l10n/app_localizations.dart';
 
 class HomeMapView extends StatefulWidget {
@@ -105,7 +104,12 @@ class _HomeMapViewState extends State<HomeMapView> {
             builder: (context, selectionState) {
               return Stack(
                 children: [
-                  _buildMap(context, selectionState, zoneState),
+                  HomeMapCanvas(
+                    mapController: _mapController,
+                    selectionState: selectionState,
+                    zoneState: zoneState,
+                    onMapLongPress: _onMapLongPress,
+                  ),
                   if (zoneState is MapZoneLoading ||
                       selectionState is MapLocationLoading)
                     MapLoadingOverlay(
@@ -136,54 +140,5 @@ class _HomeMapViewState extends State<HomeMapView> {
       MapZoneFailure.offline => l10n.errorOffline,
       MapZoneFailure.unknown => l10n.errorUnknown,
     };
-  }
-
-  Widget _buildMap(
-    BuildContext context,
-    MapSelectionState selectionState,
-    MapZoneState zoneState,
-  ) {
-    final colors = Theme.of(context).colorScheme;
-    LatLng? selectedPoint;
-
-    if (selectionState is MapLocationSelected) {
-      selectedPoint = selectionState.position;
-    }
-
-    final polygons = zoneState is MapZoneLoaded
-        ? MapLayerBuilder.buildPolygons(zoneState)
-        : <Polygon>[];
-    final circles = zoneState is MapZoneLoaded
-        ? MapLayerBuilder.buildCircles(zoneState)
-        : <CircleMarker>[];
-
-    return FlutterMap(
-      mapController: _mapController,
-      options: MapOptions(
-        initialCenter: const LatLng(34.8021, 38.9968),
-        initialZoom: 6.0,
-        onLongPress: _onMapLongPress,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: selectionState.mapType.tileUrl,
-          userAgentPackageName: 'com.example.mds',
-          retinaMode: true,
-        ),
-        if (polygons.isNotEmpty) PolygonLayer(polygons: polygons),
-        if (circles.isNotEmpty) CircleLayer(circles: circles),
-        if (selectedPoint != null)
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: selectedPoint,
-                width: 40,
-                height: 40,
-                child: Icon(Icons.location_on, color: colors.primary, size: 40),
-              ),
-            ],
-          ),
-      ],
-    );
   }
 }
