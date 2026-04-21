@@ -18,5 +18,9 @@
   "reportCubitError": "لم يتم توفير Report Cubit في main.dart بعد",
   "language": "اللغة",
   "switchToArabic": "التبديل إلى العربية",
-  "switchToEnglish": "التبديل إلى الإنجليزية"
+  "switchToEnglish": "التبديل إلى الإنجليزية",
+  "mapType": "نوع الخريطة",
+  "defaultMap": "الافتراضي",
+  "satellite": "قمر صناعي",
+  "terrain": "تضاريس"
 }

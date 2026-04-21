@@ -67,4 +67,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get switchToEnglish => 'Switch to English';
+
+  @override
+  String get mapType => 'Map Type';
+
+  @override
+  String get defaultMap => 'Default';
+
+  @override
+  String get satellite => 'Satellite';
+
+  @override
+  String get terrain => 'Terrain';
 }

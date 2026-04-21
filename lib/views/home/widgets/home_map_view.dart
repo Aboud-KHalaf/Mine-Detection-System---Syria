@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../controllers/map_selection_cubit.dart';
-import '../../../controllers/map_selection_state.dart';
-import '../../../controllers/map_zone_cubit.dart';
-import '../../../controllers/map_zone_state.dart';
+import 'package:mds/controllers/map_selection_cubit.dart';
+import 'package:mds/controllers/map_selection_state.dart';
+import 'package:mds/controllers/map_zone_cubit.dart';
+import 'package:mds/controllers/map_zone_state.dart';
 
 class HomeMapView extends StatefulWidget {
   const HomeMapView({super.key});
@@ -16,6 +16,17 @@ class HomeMapView extends StatefulWidget {
 
 class _HomeMapViewState extends State<HomeMapView> {
   final MapController _mapController = MapController();
+
+  String _getTileUrl(MapTypeEnum type) {
+    switch (type) {
+      case MapTypeEnum.satellite:
+        return 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}';
+      case MapTypeEnum.terrain:
+        return 'https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}';
+      case MapTypeEnum.defaultMap:
+        return 'https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
+    }
+  }
 
   @override
   void initState() {
@@ -73,7 +84,8 @@ class _HomeMapViewState extends State<HomeMapView> {
                       apiCircles.add(
                         CircleMarker(
                           point: center,
-                          radius: zone.shapeRadius ?? 500, // Default 500m if null
+                          radius:
+                              zone.shapeRadius ?? 500, // Default 500m if null
                           useRadiusInMeter: true,
                           color: color.withAlpha(80),
                           borderColor: color,
@@ -120,9 +132,9 @@ class _HomeMapViewState extends State<HomeMapView> {
                     ),
                     children: [
                       TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        urlTemplate: _getTileUrl(selectionState.mapType),
                         userAgentPackageName: 'com.example.mds',
+                        retinaMode: true,
                       ),
                       if (apiPolygons.isNotEmpty)
                         PolygonLayer(polygons: apiPolygons),
@@ -145,7 +157,8 @@ class _HomeMapViewState extends State<HomeMapView> {
                         ),
                     ],
                   ),
-                  if (zoneState is MapZoneLoading || selectionState is MapLocationLoading)
+                  if (zoneState is MapZoneLoading ||
+                      selectionState is MapLocationLoading)
                     Positioned(
                       top: 16,
                       left: 0,
@@ -165,9 +178,11 @@ class _HomeMapViewState extends State<HomeMapView> {
                                   ),
                                 ),
                                 const SizedBox(width: 8),
-                                Text(selectionState is MapLocationLoading 
-                                  ? 'Fetching your location...'
-                                  : 'Loading safe zones...'),
+                                Text(
+                                  selectionState is MapLocationLoading
+                                      ? 'Fetching your location...'
+                                      : 'Loading safe zones...',
+                                ),
                               ],
                             ),
                           ),

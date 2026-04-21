@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import '../../../core/theme/app_theme_tokens.dart';
 import 'package:mds/l10n/app_localizations.dart';
+import 'map_type_button.dart';
 
 class HomeSearchBar extends StatelessWidget {
   const HomeSearchBar({super.key});
@@ -66,7 +67,9 @@ class HomeSearchBar extends StatelessWidget {
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: 4),
+                  const MapTypeButton(),
+                  const SizedBox(width: 4),
                 ],
               ),
             ),

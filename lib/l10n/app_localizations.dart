@@ -211,6 +211,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Switch to English'**
   String get switchToEnglish;
+
+  /// No description provided for @mapType.
+  ///
+  /// In en, this message translates to:
+  /// **'Map Type'**
+  String get mapType;
+
+  /// No description provided for @defaultMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultMap;
+
+  /// No description provided for @satellite.
+  ///
+  /// In en, this message translates to:
+  /// **'Satellite'**
+  String get satellite;
+
+  /// No description provided for @terrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Terrain'**
+  String get terrain;
 }
 
 class _AppLocalizationsDelegate

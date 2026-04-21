@@ -68,4 +68,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get switchToEnglish => 'التبديل إلى الإنجليزية';
+
+  @override
+  String get mapType => 'نوع الخريطة';
+
+  @override
+  String get defaultMap => 'الافتراضي';
+
+  @override
+  String get satellite => 'قمر صناعي';
+
+  @override
+  String get terrain => 'تضاريس';
 }

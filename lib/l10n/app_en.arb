@@ -31,5 +31,9 @@
   "reportCubitError": "Report Cubit not yet provided in main.dart",
   "language": "Language",
   "switchToArabic": "Switch to Arabic",
-  "switchToEnglish": "Switch to English"
+  "switchToEnglish": "Switch to English",
+  "mapType": "Map Type",
+  "defaultMap": "Default",
+  "satellite": "Satellite",
+  "terrain": "Terrain"
 }
