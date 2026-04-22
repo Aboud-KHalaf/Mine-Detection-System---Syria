@@ -36,27 +36,33 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
     if (_formKey.currentState!.validate()) {
       final coordinates = [position.latitude, position.longitude];
 
+      ReportCubit reportCubit;
       try {
-        context.read<ReportCubit>().submitVisitorReport(
-          fullName: _fullNameController.text,
-          phone: _phoneController.text,
-          coordinates: coordinates,
-          notes: _notesController.text.isNotEmpty
-              ? _notesController.text
-              : null,
-          imagePath: _selectedImagePath,
-        );
-      } catch (e) {
+        reportCubit = context.read<ReportCubit>();
+      } catch (_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context)!.reportCubitError),
           ),
         );
+        return;
+      }
+
+      reportCubit.submitVisitorReport(
+        fullName: _fullNameController.text,
+        phone: _phoneController.text,
+        coordinates: coordinates,
+        notes: _notesController.text.isNotEmpty ? _notesController.text : null,
+        imagePath: _selectedImagePath,
+      );
+
+      if (Navigator.of(context).canPop()) {
+        Navigator.of(context).pop();
       }
     }
   }
 
-  Future<void> _pickImage(BuildContext context) async {
+  Future<void> _pickImage() async {
     try {
       final pickedImage = await _imagePicker.pickImage(
         source: ImageSource.gallery,
@@ -73,7 +79,9 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.errorUnknown)),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.errorUnknown),
+        ),
       );
     }
   }
@@ -179,7 +187,7 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
                 ),
                 const SizedBox(height: AppThemeTokens.spacingLg),
                 OutlinedButton.icon(
-                  onPressed: () => _pickImage(context),
+                  onPressed: _pickImage,
                   icon: const Icon(Icons.camera_alt_outlined),
                   label: Text(AppLocalizations.of(context)!.attachImage),
                 ),
@@ -233,19 +241,7 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
                     return BlocConsumer<ReportCubit, ReportState>(
                       listener: (context, state) {
                         final l10n = AppLocalizations.of(context)!;
-                        if (state is ReportSuccess) {
-                          Navigator.pop(context); // Close sheet
-                          // Clear selection after success
-                          context.read<MapSelectionCubit>().clearSelection();
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                AppLocalizations.of(context)!.reportSuccess,
-                              ),
-                            ),
-                          );
-                        } else if (state is ReportError) {
+                        if (state is ReportError) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(_localizeReportError(l10n, state)),

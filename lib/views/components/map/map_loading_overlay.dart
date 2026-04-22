@@ -8,7 +8,7 @@ class MapLoadingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 16,
+      top: 110,
       left: 0,
       right: 0,
       child: Center(
