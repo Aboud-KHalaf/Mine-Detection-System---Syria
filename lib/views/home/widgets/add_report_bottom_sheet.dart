@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
@@ -16,7 +17,8 @@ class AddReportBottomSheet extends StatefulWidget {
   State<AddReportBottomSheet> createState() => _AddReportBottomSheetState();
 }
 
-class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
+class _AddReportBottomSheetState extends State<AddReportBottomSheet>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -24,11 +26,38 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
   final _imagePicker = ImagePicker();
   String? _selectedImagePath;
 
+  late final AnimationController _animController;
+  late final Animation<Offset> _slideAnim;
+  late final Animation<double> _fadeAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 450),
+    );
+
+    _slideAnim = Tween<Offset>(
+      begin: const Offset(0, 0.25),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic),
+    );
+
+    _fadeAnim = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _animController, curve: Curves.easeIn),
+    );
+
+    _animController.forward();
+  }
+
   @override
   void dispose() {
     _fullNameController.dispose();
     _phoneController.dispose();
     _notesController.dispose();
+    _animController.dispose();
     super.dispose();
   }
 
@@ -69,9 +98,7 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
         imageQuality: 85,
       );
 
-      if (!mounted || pickedImage == null) {
-        return;
-      }
+      if (!mounted || pickedImage == null) return;
 
       setState(() {
         _selectedImagePath = pickedImage.path;
@@ -86,6 +113,39 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
     }
   }
 
+  void _showImagePreview(BuildContext context) {
+    if (_selectedImagePath == null) return;
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.file(
+                File(_selectedImagePath!),
+                fit: BoxFit.contain,
+              ),
+            ),
+            Positioned(
+              top: 8,
+              right: 8,
+              child: CircleAvatar(
+                backgroundColor: Colors.black54,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: Colors.white),
+                  onPressed: () => Navigator.of(ctx).pop(),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -96,174 +156,200 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
         ? selectionState.position
         : const LatLng(0, 0);
 
-    return Container(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
-      ),
-      decoration: BoxDecoration(
-        color: colors.surfaceContainerHigh,
-        borderRadius: const BorderRadius.vertical(
-          top: Radius.circular(AppThemeTokens.roundEight),
-        ),
-      ),
-      child: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: colors.onSurfaceVariant.withValues(alpha: 0.4),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: AppThemeTokens.spacingLg),
-                Text(
-                  AppLocalizations.of(context)!.submitHazardReport,
-                  style: textTheme.titleMedium?.copyWith(
-                    color: colors.error,
-                    letterSpacing: 1.05,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppThemeTokens.spacingSm),
-                Text(
-                  AppLocalizations.of(context)!.linkedLocation(
-                    position.latitude.toStringAsFixed(4),
-                    position.longitude.toStringAsFixed(4),
-                  ),
-                  style: textTheme.labelSmall?.copyWith(
-                    color: colors.onSurfaceVariant,
-                    letterSpacing: 1.1,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: AppThemeTokens.spacingLg),
-                TextFormField(
-                  controller: _fullNameController,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colors.onSurface,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.fullName,
-                  ),
-                  validator: (value) => value == null || value.isEmpty
-                      ? AppLocalizations.of(context)!.requiredField
-                      : null,
-                ),
-                const SizedBox(height: AppThemeTokens.spacingMd),
-                TextFormField(
-                  controller: _phoneController,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colors.onSurface,
-                  ),
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.phoneNumber,
-                  ),
-                  validator: (value) => value == null || value.isEmpty
-                      ? AppLocalizations.of(context)!.requiredField
-                      : null,
-                ),
-                const SizedBox(height: AppThemeTokens.spacingMd),
-                TextFormField(
-                  controller: _notesController,
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: colors.onSurface,
-                  ),
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context)!.notes,
-                  ),
-                ),
-                const SizedBox(height: AppThemeTokens.spacingLg),
-                OutlinedButton.icon(
-                  onPressed: _pickImage,
-                  icon: const Icon(Icons.camera_alt_outlined),
-                  label: Text(AppLocalizations.of(context)!.attachImage),
-                ),
-                if (_selectedImagePath != null) ...[
-                  const SizedBox(height: AppThemeTokens.spacingSm),
-                  Row(
-                    children: [
-                      Icon(Icons.check_circle, size: 18, color: colors.primary),
-                      const SizedBox(width: AppThemeTokens.spacingSm),
-                      Expanded(
-                        child: Text(
-                          _selectedImagePath!.split(RegExp(r'[\\/]')).last,
-                          style: textTheme.labelSmall?.copyWith(
-                            color: colors.onSurfaceVariant,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+    return FadeTransition(
+      opacity: _fadeAnim,
+      child: SlideTransition(
+        position: _slideAnim,
+        child: Container(
+          decoration: BoxDecoration(
+            color: colors.surfaceContainerHigh,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(AppThemeTokens.roundEight),
+            ),
+          ),
+          // Padding accounts for keyboard insets
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Drag handle
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: colors.onSurfaceVariant.withValues(alpha: 0.4),
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      IconButton(
-                        tooltip: MaterialLocalizations.of(
-                          context,
-                        ).deleteButtonTooltip,
-                        onPressed: () {
-                          setState(() {
-                            _selectedImagePath = null;
-                          });
-                        },
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                ],
-                const SizedBox(height: AppThemeTokens.spacingLg),
-                Builder(
-                  builder: (context) {
-                    // Quick check if the bloc is present
-                    try {
-                      context.read<ReportCubit>();
-                    } catch (_) {
-                      // Fallback UI if Bloc isn't connected at the app level yet
-                      return _buildSubmitButton(
-                        context,
-                        false,
-                        colors,
-                        textTheme,
-                        position,
-                      );
-                    }
+                    ),
+                    const SizedBox(height: AppThemeTokens.spacingLg),
 
-                    return BlocConsumer<ReportCubit, ReportState>(
-                      listener: (context, state) {
-                        final l10n = AppLocalizations.of(context)!;
-                        if (state is ReportError) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(_localizeReportError(l10n, state)),
-                              backgroundColor: colors.errorContainer,
+                    // Title
+                    Text(
+                      AppLocalizations.of(context)!.submitHazardReport,
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colors.error,
+                        letterSpacing: 1.05,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: AppThemeTokens.spacingSm),
+
+                    // Location subtitle
+                    Text(
+                      AppLocalizations.of(context)!.linkedLocation(
+                        position.latitude.toStringAsFixed(4),
+                        position.longitude.toStringAsFixed(4),
+                      ),
+                      style: textTheme.labelSmall?.copyWith(
+                        color: colors.onSurfaceVariant,
+                        letterSpacing: 1.1,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: AppThemeTokens.spacingLg),
+
+                    // Full name
+                    TextFormField(
+                      controller: _fullNameController,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colors.onSurface,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.fullName,
+                      ),
+                      validator: (value) => value == null || value.isEmpty
+                          ? AppLocalizations.of(context)!.requiredField
+                          : null,
+                    ),
+                    const SizedBox(height: AppThemeTokens.spacingMd),
+
+                    // Phone
+                    TextFormField(
+                      controller: _phoneController,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colors.onSurface,
+                      ),
+                      keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.phoneNumber,
+                      ),
+                      validator: (value) => value == null || value.isEmpty
+                          ? AppLocalizations.of(context)!.requiredField
+                          : null,
+                    ),
+                    const SizedBox(height: AppThemeTokens.spacingMd),
+
+                    // Notes
+                    TextFormField(
+                      controller: _notesController,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colors.onSurface,
+                      ),
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: AppLocalizations.of(context)!.notes,
+                      ),
+                    ),
+                    const SizedBox(height: AppThemeTokens.spacingLg),
+
+                    // Image picker button
+                    OutlinedButton.icon(
+                      onPressed: _pickImage,
+                      icon: const Icon(Icons.camera_alt_outlined),
+                      label: Text(AppLocalizations.of(context)!.attachImage),
+                    ),
+
+                    // Image preview (animated appearance)
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 350),
+                      switchInCurve: Curves.easeOutBack,
+                      switchOutCurve: Curves.easeIn,
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0, 0.2),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      ),
+                      child: _selectedImagePath != null
+                          ? Padding(
+                              key: const ValueKey('image-preview'),
+                              padding: const EdgeInsets.only(
+                                top: AppThemeTokens.spacingSm,
+                              ),
+                              child: _ImagePreviewTile(
+                                imagePath: _selectedImagePath!,
+                                onTap: () => _showImagePreview(context),
+                                onRemove: () =>
+                                    setState(() => _selectedImagePath = null),
+                              ),
+                            )
+                          : const SizedBox.shrink(
+                              key: ValueKey('no-image'),
                             ),
+                    ),
+
+                    const SizedBox(height: AppThemeTokens.spacingLg),
+
+                    // Submit button
+                    Builder(
+                      builder: (context) {
+                        try {
+                          context.read<ReportCubit>();
+                        } catch (_) {
+                          return _buildSubmitButton(
+                            context,
+                            false,
+                            colors,
+                            textTheme,
+                            position,
                           );
                         }
-                      },
-                      builder: (context, state) {
-                        final isLoading = state is ReportSubmitting;
-                        return _buildSubmitButton(
-                          context,
-                          isLoading,
-                          colors,
-                          textTheme,
-                          position,
+
+                        return BlocConsumer<ReportCubit, ReportState>(
+                          listener: (context, state) {
+                            final l10n = AppLocalizations.of(context)!;
+                            if (state is ReportError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    _localizeReportError(l10n, state),
+                                  ),
+                                  backgroundColor: colors.errorContainer,
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            final isLoading = state is ReportSubmitting;
+                            return _buildSubmitButton(
+                              context,
+                              isLoading,
+                              colors,
+                              textTheme,
+                              position,
+                            );
+                          },
                         );
                       },
-                    );
-                  },
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
@@ -310,5 +396,112 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
       ReportFailure.offlineQueued => l10n.reportErrorOfflineQueued,
       ReportFailure.unknown => l10n.errorUnknown,
     };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Private image preview tile
+// ---------------------------------------------------------------------------
+
+class _ImagePreviewTile extends StatelessWidget {
+  final String imagePath;
+  final VoidCallback onTap;
+  final VoidCallback onRemove;
+
+  const _ImagePreviewTile({
+    required this.imagePath,
+    required this.onTap,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final fileName = imagePath.split(RegExp(r'[\\/]')).last;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(AppThemeTokens.roundEight),
+        child: Stack(
+          children: [
+            // Thumbnail
+            AspectRatio(
+              aspectRatio: 16 / 7,
+              child: Image.file(
+                File(imagePath),
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+            ),
+
+            // Dark gradient overlay at bottom
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black.withValues(alpha: 0.65)],
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.image_outlined,
+                      size: 14,
+                      color: Colors.white70,
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        fileName,
+                        style: textTheme.labelSmall?.copyWith(
+                          color: Colors.white,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Icon(
+                      Icons.zoom_in_rounded,
+                      size: 14,
+                      color: Colors.white70,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Remove button (top-right)
+            Positioned(
+              top: 8,
+              right: 8,
+              child: GestureDetector(
+                onTap: onRemove,
+                child: CircleAvatar(
+                  radius: 14,
+                  backgroundColor: colors.errorContainer,
+                  child: Icon(
+                    Icons.close,
+                    size: 16,
+                    color: colors.onErrorContainer,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
