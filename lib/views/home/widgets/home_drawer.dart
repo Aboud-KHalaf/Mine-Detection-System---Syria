@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../controllers/locale_cubit.dart';
 import 'package:mds/l10n/app_localizations.dart';
+import '../../settings/screens/settings_screen.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({super.key});
@@ -46,49 +45,39 @@ class HomeDrawer extends StatelessWidget {
                       title: AppLocalizations.of(context)!.fieldMap,
                       isActive: true,
                     ),
-                    const SizedBox(height: 8),
-                    _DrawerItem(
-                      icon: Icons.analytics_outlined,
-                      title: AppLocalizations.of(context)!.statistics,
-                      isActive: false,
-                    ),
+                    // const SizedBox(height: 8),
+                    // _DrawerItem(
+                    //   icon: Icons.analytics_outlined,
+                    //   title: AppLocalizations.of(context)!.statistics,
+                    //   isActive: false,
+                    // ),
                     const SizedBox(height: 8),
                     _DrawerItem(
                       icon: Icons.settings_outlined,
                       title: AppLocalizations.of(context)!.operationalSettings,
                       isActive: false,
-                    ),
-                    const Divider(height: 32),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0,
-                        vertical: 8.0,
-                      ),
-                      child: Text(
-                        AppLocalizations.of(context)!.language,
-                        style: textTheme.labelSmall?.copyWith(
-                          color: colors.primary,
-                        ),
-                      ),
-                    ),
-                    _DrawerItem(
-                      icon: Icons.language,
-                      title:
-                          Localizations.localeOf(context).languageCode == 'en'
-                          ? AppLocalizations.of(context)!.switchToArabic
-                          : AppLocalizations.of(context)!.switchToEnglish,
-                      isActive: false,
                       onTap: () {
-                        final currentLocale = Localizations.localeOf(context);
-                        final newLanguageCode =
-                            currentLocale.languageCode == 'en' ? 'ar' : 'en';
-                        context.read<LocaleCubit>().changeLanguage(
-                          newLanguageCode,
+                        Navigator.pop(context); // Close drawer
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SettingsScreen(),
+                          ),
                         );
                       },
                     ),
                   ],
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Text(
+                AppLocalizations.of(context)!.appVersion('1.0.0'),
+                style: textTheme.labelSmall?.copyWith(
+                  color: colors.onSurfaceVariant.withAlpha(128),
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],

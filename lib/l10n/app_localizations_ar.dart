@@ -9,7 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'تاكتيكال سنتينل';
+  String get appTitle => 'منظومة تحديد الالغام';
 
   @override
   String get fieldMap => 'خريطة الميدان';
@@ -120,5 +120,19 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String errorRetry(String message) {
     return 'خطأ: $message. إعادة المحاولة؟';
+  }
+
+  @override
+  String get mapTheme => 'نسق الخريطة';
+
+  @override
+  String get light => 'فاتح';
+
+  @override
+  String get dark => 'داكن';
+
+  @override
+  String appVersion(String version) {
+    return 'إصدار التطبيق: $version';
   }
 }

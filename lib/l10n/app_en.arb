@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "TACTICAL SENTINEL",
+  "appTitle": "Mine detection system",
   "@appTitle": {
     "description": "Main title of the application"
   },
@@ -60,6 +60,17 @@
   "@errorRetry": {
     "placeholders": {
       "message": {
+        "type": "String"
+      }
+    }
+  },
+  "mapTheme": "Map Theme",
+  "light": "Light",
+  "dark": "Dark",
+  "appVersion": "App Version: {version}",
+  "@appVersion": {
+    "placeholders": {
+      "version": {
         "type": "String"
       }
     }

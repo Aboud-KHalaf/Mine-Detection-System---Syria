@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// Main title of the application
   ///
   /// In en, this message translates to:
-  /// **'TACTICAL SENTINEL'**
+  /// **'Mine detection system'**
   String get appTitle;
 
   /// No description provided for @fieldMap.
@@ -301,6 +301,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error: {message}. Retry?'**
   String errorRetry(String message);
+
+  /// No description provided for @mapTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Map Theme'**
+  String get mapTheme;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'App Version: {version}'**
+  String appVersion(String version);
 }
 
 class _AppLocalizationsDelegate

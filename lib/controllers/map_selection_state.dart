@@ -3,6 +3,8 @@ import 'package:latlong2/latlong.dart';
 
 enum MapTypeEnum { defaultMap, satellite, terrain }
 
+enum MapThemeEnum { light, dark }
+
 enum MapSelectionFailure {
   locationServicesDisabled,
   locationNotFound,
@@ -11,28 +13,32 @@ enum MapSelectionFailure {
 
 abstract class MapSelectionState extends Equatable {
   final MapTypeEnum mapType;
+  final MapThemeEnum mapTheme;
 
-  const MapSelectionState({this.mapType = MapTypeEnum.defaultMap});
+  const MapSelectionState({
+    this.mapType = MapTypeEnum.defaultMap,
+    this.mapTheme = MapThemeEnum.light,
+  });
 
   @override
-  List<Object?> get props => [mapType];
+  List<Object?> get props => [mapType, mapTheme];
 }
 
 class MapSelectionInitial extends MapSelectionState {
-  const MapSelectionInitial({super.mapType});
+  const MapSelectionInitial({super.mapType, super.mapTheme});
 }
 
 class MapLocationLoading extends MapSelectionState {
-  const MapLocationLoading({super.mapType});
+  const MapLocationLoading({super.mapType, super.mapTheme});
 }
 
 class MapLocationSelected extends MapSelectionState {
   final LatLng position;
 
-  const MapLocationSelected(this.position, {super.mapType});
+  const MapLocationSelected(this.position, {super.mapType, super.mapTheme});
 
   @override
-  List<Object?> get props => [position, mapType];
+  List<Object?> get props => [position, mapType, mapTheme];
 }
 
 class MapLocationError extends MapSelectionState {
@@ -43,8 +49,9 @@ class MapLocationError extends MapSelectionState {
     this.failure, {
     this.debugMessage,
     super.mapType,
+    super.mapTheme,
   });
 
   @override
-  List<Object?> get props => [failure, debugMessage, mapType];
+  List<Object?> get props => [failure, debugMessage, mapType, mapTheme];
 }

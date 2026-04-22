@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'TACTICAL SENTINEL';
+  String get appTitle => 'Mine detection system';
 
   @override
   String get fieldMap => 'FIELD MAP';
@@ -119,5 +119,19 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String errorRetry(String message) {
     return 'Error: $message. Retry?';
+  }
+
+  @override
+  String get mapTheme => 'Map Theme';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String appVersion(String version) {
+    return 'App Version: $version';
   }
 }

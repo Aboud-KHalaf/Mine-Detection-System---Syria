@@ -1,6 +1,6 @@
 {
   "@@locale": "ar",
-  "appTitle": "تاكتيكال سنتينل",
+  "appTitle": "منظومة تحديد الالغام",
   "fieldMap": "خريطة الميدان",
   "statistics": "الإحصائيات",
   "operationalSettings": "الإعدادات التشغيلية",
@@ -33,5 +33,9 @@
   "mapErrorLocationNotFound": "لم يتم العثور على الموقع. يرجى المحاولة بكلمات أخرى.",
   "mapErrorUnknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
   "reportErrorOfflineQueued": "أنت غير متصل بالإنترنت. تم وضع التقرير في قائمة الانتظار وسيتم مزامنته لاحقاً.",
-  "errorRetry": "خطأ: {message}. إعادة المحاولة؟"
+  "errorRetry": "خطأ: {message}. إعادة المحاولة؟",
+  "mapTheme": "نسق الخريطة",
+  "light": "فاتح",
+  "dark": "داكن",
+  "appVersion": "إصدار التطبيق: {version}"
 }

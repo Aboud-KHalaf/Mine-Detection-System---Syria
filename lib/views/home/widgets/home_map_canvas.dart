@@ -45,10 +45,20 @@ class HomeMapCanvas extends StatelessWidget {
         onLongPress: onMapLongPress,
       ),
       children: [
-        TileLayer(
-          urlTemplate: selectionState.mapType.tileUrl,
-          userAgentPackageName: 'com.example.mds',
-          retinaMode: true,
+        ColorFiltered(
+          colorFilter: selectionState.mapTheme == MapThemeEnum.dark
+              ? const ColorFilter.matrix([
+                  -0.2126, -0.7152, -0.0722, 0, 255,
+                  -0.2126, -0.7152, -0.0722, 0, 255,
+                  -0.2126, -0.7152, -0.0722, 0, 255,
+                  0, 0, 0, 1, 0,
+                ])
+              : const ColorFilter.mode(Colors.transparent, BlendMode.dst),
+          child: TileLayer(
+            urlTemplate: selectionState.mapType.tileUrl(selectionState.mapTheme),
+            userAgentPackageName: 'com.example.mds',
+            retinaMode: true,
+          ),
         ),
         if (polygons.isNotEmpty) PolygonLayer(polygons: polygons),
         if (circles.isNotEmpty) CircleLayer(circles: circles),
