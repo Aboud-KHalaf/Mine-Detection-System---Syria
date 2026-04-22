@@ -50,6 +50,7 @@ dependencies:
   json_annotation: ^4.11.0
   pretty_dio_logger: ^1.4.0
   geolocator: ^14.0.2
+  image_picker: ^1.2.0
 
 dev_dependencies:
   flutter_test:

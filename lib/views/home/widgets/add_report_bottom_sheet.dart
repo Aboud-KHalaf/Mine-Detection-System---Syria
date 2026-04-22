@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../../controllers/report_cubit.dart';
 import '../../../controllers/report_state.dart';
 import '../../../controllers/map_selection_cubit.dart';
@@ -20,6 +21,8 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
   final _fullNameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _notesController = TextEditingController();
+  final _imagePicker = ImagePicker();
+  String? _selectedImagePath;
 
   @override
   void dispose() {
@@ -41,6 +44,7 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
           notes: _notesController.text.isNotEmpty
               ? _notesController.text
               : null,
+          imagePath: _selectedImagePath,
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -49,6 +53,28 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
           ),
         );
       }
+    }
+  }
+
+  Future<void> _pickImage(BuildContext context) async {
+    try {
+      final pickedImage = await _imagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 85,
+      );
+
+      if (!mounted || pickedImage == null) {
+        return;
+      }
+
+      setState(() {
+        _selectedImagePath = pickedImage.path;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.errorUnknown)),
+      );
     }
   }
 
@@ -153,12 +179,40 @@ class _AddReportBottomSheetState extends State<AddReportBottomSheet> {
                 ),
                 const SizedBox(height: AppThemeTokens.spacingLg),
                 OutlinedButton.icon(
-                  onPressed: () {
-                    // Logic for capturing image (Phase 3 requirement)
-                  },
+                  onPressed: () => _pickImage(context),
                   icon: const Icon(Icons.camera_alt_outlined),
                   label: Text(AppLocalizations.of(context)!.attachImage),
                 ),
+                if (_selectedImagePath != null) ...[
+                  const SizedBox(height: AppThemeTokens.spacingSm),
+                  Row(
+                    children: [
+                      Icon(Icons.check_circle, size: 18, color: colors.primary),
+                      const SizedBox(width: AppThemeTokens.spacingSm),
+                      Expanded(
+                        child: Text(
+                          _selectedImagePath!.split(RegExp(r'[\\/]')).last,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: colors.onSurfaceVariant,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      IconButton(
+                        tooltip: MaterialLocalizations.of(
+                          context,
+                        ).deleteButtonTooltip,
+                        onPressed: () {
+                          setState(() {
+                            _selectedImagePath = null;
+                          });
+                        },
+                        icon: const Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                ],
                 const SizedBox(height: AppThemeTokens.spacingLg),
                 Builder(
                   builder: (context) {

@@ -49,5 +49,7 @@
 	<string>This app needs access to location when open to show your position on the map and find nearby hazards.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs access to location to provide hazard alerts even in the background.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to attach evidence images to reports.</string>
 </dict>
 </plist>
