@@ -66,6 +66,22 @@ dev_dependencies:
   retrofit_generator: ^10.2.5
   build_runner: ^2.13.1
   json_serializable: ^6.13.1
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.4
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/app/logo.png"
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/app/logo.png"
+  android_12:
+    image: "assets/app/logo.png"
+    icon_background_color: "#ffffff"
+    color: "#ffffff"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

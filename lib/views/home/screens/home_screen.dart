@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'widgets/home_map_view.dart';
-import 'widgets/current_location_button.dart';
-import 'widgets/add_report_button.dart';
-import 'widgets/home_search_bar.dart';
-import 'widgets/home_drawer.dart';
+import '../widgets/home_map_view.dart';
+import '../widgets/current_location_button.dart';
+import '../widgets/add_report_button.dart';
+import '../widgets/home_search_bar.dart';
+import '../widgets/home_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,13 +29,13 @@ class _HomeScreenState extends State<HomeScreen>
     );
 
     // Search bar: slides in from top
-    _searchBarSlide = Tween<Offset>(
-      begin: const Offset(0, -1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.0, 0.7, curve: Curves.easeOutCubic),
-    ));
+    _searchBarSlide =
+        Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.0, 0.7, curve: Curves.easeOutCubic),
+          ),
+        );
 
     _searchBarFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
@@ -45,13 +45,13 @@ class _HomeScreenState extends State<HomeScreen>
     );
 
     // FABs: slide in from right with slight delay
-    _fabsSlide = Tween<Offset>(
-      begin: const Offset(1.5, 0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
-    ));
+    _fabsSlide = Tween<Offset>(begin: const Offset(1.5, 0), end: Offset.zero)
+        .animate(
+          CurvedAnimation(
+            parent: _controller,
+            curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
+          ),
+        );
 
     _fabsFade = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(

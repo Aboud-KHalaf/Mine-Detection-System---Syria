@@ -19,7 +19,7 @@ import 'controllers/map_selection_controller/map_selection_cubit.dart';
 import 'controllers/statistics_controller/statistics_cubit.dart';
 import 'controllers/local_controller/locale_cubit.dart';
 import 'controllers/local_controller/locale_state.dart';
-import 'views/home/home_screen.dart';
+import 'views/home/screens/home_screen.dart';
 
 import 'services/location_service.dart';
 
