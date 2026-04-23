@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-import '../core/api_client.dart';
+import '../core/api/api_client.dart';
 import '../core/exceptions.dart';
 import '../models/visitor_report_model.dart';
 import 'api/visitor_report_api.dart';

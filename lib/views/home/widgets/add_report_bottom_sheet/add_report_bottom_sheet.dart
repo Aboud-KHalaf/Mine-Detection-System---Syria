@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../controllers/report_cubit.dart';
-import '../../../controllers/map_selection_cubit.dart';
-import '../../../controllers/map_selection_state.dart';
+import '../../../../controllers/report_cubit.dart';
+import '../../../../controllers/map_selection_cubit.dart';
+import '../../../../controllers/map_selection_state.dart';
 import 'package:mds/l10n/app_localizations.dart';
-import 'add_report_bottom_sheet/add_report_bottom_sheet_content.dart';
-import 'add_report_bottom_sheet/add_report_image_preview_dialog.dart';
+import 'add_report_bottom_sheet_content.dart';
+import 'add_report_image_preview_dialog.dart';
 
 class AddReportBottomSheet extends StatefulWidget {
   const AddReportBottomSheet({super.key});

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'exceptions.dart';
+import '../exceptions.dart';
 import 'dio_factory.dart';
 
 class ApiClient {
@@ -17,7 +17,10 @@ class ApiClient {
     _dio.options.headers.remove('Authorization');
   }
 
-  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) async {
+  Future<Response> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       return await _dio.get(path, queryParameters: queryParameters);
     } on DioException catch (e) {
@@ -33,7 +36,11 @@ class ApiClient {
     }
   }
 
-  Future<Response> put(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<Response> put(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       return await _dio.put(path, data: data, queryParameters: queryParameters);
     } on DioException catch (e) {
@@ -50,18 +57,22 @@ class ApiClient {
   }
 
   Exception _handleDioError(DioException e) {
-    if (e.type == DioExceptionType.connectionTimeout || e.type == DioExceptionType.receiveTimeout) {
-      return OfflineException('Connection timed out. Please check your internet connection.');
-    } else if (e.type == DioExceptionType.unknown && e.message?.contains('SocketException') == true) {
+    if (e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout) {
+      return OfflineException(
+        'Connection timed out. Please check your internet connection.',
+      );
+    } else if (e.type == DioExceptionType.unknown &&
+        e.message?.contains('SocketException') == true) {
       return OfflineException('No internet connection.');
     }
-    
+
     String errorMessage = 'An unknown API error occurred.';
     if (e.response?.data != null && e.response?.data is Map) {
       final data = e.response!.data as Map;
       errorMessage = data['message'] ?? errorMessage;
     }
-    
+
     return ApiException(errorMessage, e.response?.statusCode);
   }
 }
