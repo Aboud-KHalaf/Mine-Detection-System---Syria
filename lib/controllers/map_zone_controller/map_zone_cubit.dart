@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../services/zone_service.dart';
+import '../../services/zone_service.dart';
 import 'map_zone_state.dart';
-import '../core/exceptions.dart';
+import '../../core/errors/exceptions.dart';
 
 class MapZoneCubit extends Cubit<MapZoneState> {
   final ZoneService zoneService;

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../services/visitor_report_service.dart';
+import '../../services/visitor_report_service.dart';
 import 'report_state.dart';
-import '../core/exceptions.dart';
+import '../../core/errors/exceptions.dart';
 
 class ReportCubit extends Cubit<ReportState> {
   final VisitorReportService reportService;

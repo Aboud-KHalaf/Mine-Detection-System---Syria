@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:hive_ce/hive.dart';
-import '../services/location_service.dart';
-import '../services/geocoding_service.dart';
+import '../../services/location_service.dart';
+import '../../services/geocoding_service.dart';
 import 'map_selection_state.dart';
 
 class MapSelectionCubit extends Cubit<MapSelectionState> {
@@ -10,7 +10,7 @@ class MapSelectionCubit extends Cubit<MapSelectionState> {
   final GeocodingService _geocodingService;
 
   MapSelectionCubit(this._locationService, this._geocodingService)
-      : super(const MapSelectionInitial()) {
+    : super(const MapSelectionInitial()) {
     _loadSettings();
   }
 
