@@ -1,3 +1,5 @@
+<img width="1536" height="1024" alt="ChatGPT Image Apr 23, 2026, 05_03_38 PM" src="https://github.com/user-attachments/assets/709136aa-c27a-4b3c-8eb2-125670020e34" />
+
 # Project Overview: Mine Detection System (Mobile)
 
 ## 1. Executive Summary
