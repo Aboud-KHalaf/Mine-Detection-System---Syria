@@ -1,15 +1,11 @@
 import 'package:equatable/equatable.dart';
-import '../models/statistics_model.dart';
+import '../../models/statistics_model.dart';
 
-
-enum StatisticsFailure {
-  api,
-  unknown,
-}
+enum StatisticsFailure { api, unknown }
 
 abstract class StatisticsState extends Equatable {
   const StatisticsState();
-  
+
   @override
   List<Object?> get props => [];
 }
@@ -33,11 +29,7 @@ class StatisticsError extends StatisticsState {
   final String? serverMessage;
   final String? debugMessage;
 
-  const StatisticsError(
-    this.failure, {
-    this.serverMessage,
-    this.debugMessage,
-  });
+  const StatisticsError(this.failure, {this.serverMessage, this.debugMessage});
 
   @override
   List<Object?> get props => [failure, serverMessage, debugMessage];

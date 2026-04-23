@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mds/controllers/map_selection_cubit.dart';
-import 'package:mds/controllers/map_selection_state.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_cubit.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_state.dart';
 import 'package:mds/l10n/app_localizations.dart';
 
 class MapTypeSelectionSheet extends StatelessWidget {

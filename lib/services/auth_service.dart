@@ -1,4 +1,4 @@
-import 'package:hive_ce/hive.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../core/api/api_client.dart';
 import '../models/user_token_model.dart';
 import 'api/auth_api.dart';
@@ -6,6 +6,7 @@ import 'api/auth_api.dart';
 class AuthService {
   final ApiClient apiClient;
   final AuthApi _authApi;
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   AuthService(this.apiClient) : _authApi = AuthApi(apiClient.dio);
 
@@ -20,13 +21,11 @@ class AuthService {
   }
 
   Future<void> _saveTokenLocally(String token) async {
-    final box = await Hive.openBox('authBox');
-    await box.put('token', token);
+    await _secureStorage.write(key: 'token', value: token);
   }
 
   Future<String?> getToken() async {
-    final box = await Hive.openBox('authBox');
-    final token = box.get('token') as String?;
+    final token = await _secureStorage.read(key: 'token');
     if (token != null) {
       apiClient.setToken(token);
     }
@@ -34,8 +33,7 @@ class AuthService {
   }
 
   Future<void> logout() async {
-    final box = await Hive.openBox('authBox');
-    await box.delete('token');
+    await _secureStorage.delete(key: 'token');
     apiClient.removeToken();
   }
 }

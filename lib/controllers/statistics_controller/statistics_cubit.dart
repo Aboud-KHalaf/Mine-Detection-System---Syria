@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../services/general_data_service.dart';
+import '../../services/general_data_service.dart';
 import 'statistics_state.dart';
-import '../core/errors/exceptions.dart';
+import '../../core/errors/exceptions.dart';
 
 class StatisticsCubit extends Cubit<StatisticsState> {
   final GeneralDataService dataService;

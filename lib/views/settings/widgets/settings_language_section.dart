@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mds/controllers/locale_cubit.dart';
+import 'package:mds/controllers/local_controller/locale_cubit.dart';
 import 'package:mds/l10n/app_localizations.dart';
 
 class SettingsLanguageSection extends StatelessWidget {

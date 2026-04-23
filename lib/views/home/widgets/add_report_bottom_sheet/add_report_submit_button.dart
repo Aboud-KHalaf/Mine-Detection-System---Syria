@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mds/controllers/report_cubit.dart';
-import 'package:mds/controllers/report_state.dart';
+import 'package:mds/controllers/report_controller/report_cubit.dart';
+import 'package:mds/controllers/report_controller/report_state.dart';
 import 'package:mds/l10n/app_localizations.dart';
 
 import 'add_report_error_mapper.dart';

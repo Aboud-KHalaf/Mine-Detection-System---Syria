@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mds/controllers/map_selection_cubit.dart';
-import 'package:mds/controllers/map_selection_state.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_cubit.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_state.dart';
 import 'package:mds/l10n/app_localizations.dart';
 
 class SettingsMapTypeSection extends StatelessWidget {
@@ -31,7 +31,9 @@ class SettingsMapTypeSection extends StatelessWidget {
             return Card(
               color: colors.surfaceContainerLow,
               elevation: 0,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
@@ -103,13 +105,17 @@ class _MapTypeItem extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: isSelected ? colors.onPrimaryContainer : colors.onSurfaceVariant,
+                color: isSelected
+                    ? colors.onPrimaryContainer
+                    : colors.onSurfaceVariant,
               ),
               const SizedBox(height: 8),
               Text(
                 label,
                 style: textTheme.labelSmall?.copyWith(
-                  color: isSelected ? colors.onPrimaryContainer : colors.onSurfaceVariant,
+                  color: isSelected
+                      ? colors.onPrimaryContainer
+                      : colors.onSurfaceVariant,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),

@@ -1,4 +1,4 @@
-import 'package:mds/controllers/report_state.dart';
+import 'package:mds/controllers/report_controller/report_state.dart';
 import 'package:mds/l10n/app_localizations.dart';
 
 String mapReportErrorMessage(AppLocalizations l10n, ReportError error) {

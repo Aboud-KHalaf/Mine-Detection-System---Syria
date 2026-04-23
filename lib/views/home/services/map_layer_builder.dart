@@ -1,5 +1,5 @@
 import 'package:flutter_map/flutter_map.dart';
-import 'package:mds/controllers/map_zone_state.dart';
+import 'package:mds/controllers/map_zone_controller/map_zone_state.dart';
 
 class MapLayerBuilder {
   static List<Polygon> buildPolygons(MapZoneLoaded zoneState) {

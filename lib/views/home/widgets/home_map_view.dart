@@ -3,10 +3,10 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:mds/controllers/map_selection_cubit.dart';
-import 'package:mds/controllers/map_selection_state.dart';
-import 'package:mds/controllers/map_zone_cubit.dart';
-import 'package:mds/controllers/map_zone_state.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_cubit.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_state.dart';
+import 'package:mds/controllers/map_zone_controller/map_zone_cubit.dart';
+import 'package:mds/controllers/map_zone_controller/map_zone_state.dart';
 import 'package:mds/views/components/map/map_loading_overlay.dart';
 import 'package:mds/views/components/map/map_error_overlay.dart';
 import 'package:mds/views/home/widgets/home_map_canvas.dart';

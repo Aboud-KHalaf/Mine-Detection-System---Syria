@@ -1,4 +1,4 @@
-import 'package:mds/controllers/map_selection_state.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_state.dart';
 
 extension MapTypeExtension on MapTypeEnum {
   String tileUrl(MapThemeEnum theme) {

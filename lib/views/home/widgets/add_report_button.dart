@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mds/l10n/app_localizations.dart';
-import '../../../controllers/map_selection_cubit.dart';
-import '../../../controllers/map_selection_state.dart';
+import '../../../controllers/map_selection_controller/map_selection_cubit.dart';
+import '../../../controllers/map_selection_controller/map_selection_state.dart';
 import 'add_report_bottom_sheet/add_report_bottom_sheet.dart';
 
 class AddReportButton extends StatelessWidget {

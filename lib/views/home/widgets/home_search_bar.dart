@@ -3,7 +3,7 @@ import 'dart:ui';
 import '../../../core/theme/app_theme_tokens.dart';
 import 'package:mds/l10n/app_localizations.dart';
 import 'map_type_button.dart';
-import 'package:mds/controllers/map_selection_cubit.dart';
+import 'package:mds/controllers/map_selection_controller/map_selection_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeSearchBar extends StatefulWidget {

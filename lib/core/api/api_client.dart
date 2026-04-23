@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import '../exceptions.dart';
+import '../errors/exceptions.dart';
 import 'dio_factory.dart';
 
 class ApiClient {

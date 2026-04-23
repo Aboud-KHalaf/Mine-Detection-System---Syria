@@ -1,7 +1,7 @@
 import 'package:hive_ce/hive.dart';
 import '../core/api/api_client.dart';
 import '../models/zone_model.dart';
-import '../core/exceptions.dart';
+import '../core/errors/exceptions.dart';
 import 'api/zone_api.dart';
 
 class ZoneService {
